@@ -56,5 +56,17 @@ class ViewController: UIViewController {
             displayValue = brain.result
         }
     }
+    
+    private var memoryValue: Double?
+    
+    @IBAction private func setMemoryValue() {
+        memoryValue = displayValue
+    }
+    
+    @IBAction private func getMemoryValue() {
+        if let value = memoryValue {
+            displayValue = value
+        }
+    }
 }
 
