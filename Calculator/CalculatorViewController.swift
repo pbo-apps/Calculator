@@ -24,11 +24,22 @@ class CalculatorViewController: UIViewController {
         }
     }
     
+    var displayValue: Double {
+        get {
+            // Double initialiser returns an optional Double - if the string value cannot be converted it will return nil (not set)
+            // By unwrapping it directly we are assuming the display will only ever contain a double
+            return Double(display.text!)!
+        }
+        set {
+            display.text = String(newValue)
+        }
+    }
+    
     @IBAction func performOperation(_ sender: UIButton) {
         userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
             if mathematicalSymbol == "π" {
-                display.text = String(M_PI)
+                displayValue = M_PI
             }
         }
     }
