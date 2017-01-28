@@ -13,6 +13,7 @@
 		A15270991E3BA96500827132 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A15270981E3BA96500827132 /* Assets.xcassets */; };
 		A152709C1E3BA96500827132 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A152709A1E3BA96500827132 /* LaunchScreen.storyboard */; };
 		A15270A41E3BAE4E00827132 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A15270A31E3BAE4E00827132 /* .gitignore */; };
+		A15270A81E3CFBAA00827132 /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15270A71E3CFBAA00827132 /* CalculatorBrain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A152709B1E3BA96500827132 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A152709D1E3BA96500827132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A15270A31E3BAE4E00827132 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		A15270A71E3CFBAA00827132 /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				A15270A61E3CCBC500827132 /* Supporting Files */,
 				A15270931E3BA96500827132 /* ViewController.swift */,
 				A15270951E3BA96500827132 /* Main.storyboard */,
+				A15270A71E3CFBAA00827132 /* CalculatorBrain.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A15270A81E3CFBAA00827132 /* CalculatorBrain.swift in Sources */,
 				A15270941E3BA96500827132 /* ViewController.swift in Sources */,
 				A15270921E3BA96500827132 /* AppDelegate.swift in Sources */,
 			);
