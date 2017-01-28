@@ -9,10 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var display: UILabel!
 
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        print("Touched digit number \(digit)")
+        display.text?.append(digit)
     }
 }
 
