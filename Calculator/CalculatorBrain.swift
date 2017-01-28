@@ -15,9 +15,6 @@ func add(op1: Double, op2: Double) -> Double {
 func subtract(op1: Double, op2: Double) -> Double {
     return op1 - op2
 }
-func multiply(op1: Double, op2: Double) -> Double {
-    return op1 * op2
-}
 func divide(op1: Double, op2: Double) -> Double {
     return op1 / op2
 }
@@ -40,7 +37,9 @@ class CalculatorBrain {
         "√" : Operation.UnaryOperation(sqrt),
         "+" : Operation.BinaryOperation(add),
         "-" : Operation.BinaryOperation(subtract),
-        "×" : Operation.BinaryOperation(multiply),
+        "×" : Operation.BinaryOperation({ (op1: Double, op2: Double) -> Double in
+            return op1 * op2
+            }),
         "÷" : Operation.BinaryOperation(divide),
         "=" : Operation.Equals
     ]
