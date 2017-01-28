@@ -17,10 +17,21 @@ class ViewController: UIViewController {
     @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInMiddleOfTyping {
-            display.text?.append(digit)
+            display.text!.append(digit)
         } else {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
+        }
+    }
+    
+    @IBAction func touchDecimalPoint(_ sender: UIButton) {
+        if userIsInMiddleOfTyping {
+            if !display.text!.contains(".") {
+                display.text!.append(".")
+            }
+        } else {
+            display.text = "0."
+            userIsInMiddleOfTyping = true
         }
     }
     
