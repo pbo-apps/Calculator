@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Calculator
 //
 //  Created by Pete Bounford on 27/01/2017.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
+    
     @IBOutlet weak var display: UILabel!
     
     var userIsInMiddleOfTyping = false
