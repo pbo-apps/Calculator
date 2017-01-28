@@ -37,7 +37,7 @@ class CalculatorBrain {
         "√" : Operation.UnaryOperation(sqrt),
         "+" : Operation.BinaryOperation(add),
         "-" : Operation.BinaryOperation(subtract),
-        "×" : Operation.BinaryOperation({ (op1, op2) in return op1 * op2 }),
+        "×" : Operation.BinaryOperation({ return $0 * $1 }),
         "÷" : Operation.BinaryOperation(divide),
         "=" : Operation.Equals
     ]
