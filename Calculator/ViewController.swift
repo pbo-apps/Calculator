@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
         if userIsInMiddleOfTyping {
             display.text?.append(digit)
-        } else {
+        } else if digit != "0" {
             display.text = digit
             userIsInMiddleOfTyping = true
         }
