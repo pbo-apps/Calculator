@@ -17,13 +17,14 @@ class CalculatorBrain {
         accumulator = operand
     }
     
-    var operations: Dictionary<String, Operation> = [
+    private var operations: Dictionary<String, Operation> = [
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
         "sin" : Operation.UnaryOperation(sin),
         "cos" : Operation.UnaryOperation(cos),
         "tan" : Operation.UnaryOperation(tan),
         "√" : Operation.UnaryOperation(sqrt),
+        "±" : Operation.UnaryOperation({ -$0 }),
         "+" : Operation.BinaryOperation({ $0 + $1 }),
         "-" : Operation.BinaryOperation({ $0 - $1 }),
         "×" : Operation.BinaryOperation({ $0 * $1 }),
@@ -31,7 +32,7 @@ class CalculatorBrain {
         "=" : Operation.Equals
     ]
     
-    enum Operation {
+    private enum Operation {
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
@@ -66,7 +67,7 @@ class CalculatorBrain {
     
     // struct in Swift is very like class, but it is passed by value not by reference
     // also structs have no inheritance
-    struct PendingBinaryOperationInfo {
+    private struct PendingBinaryOperationInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
         func execute(secondOperand: Double) -> Double {
