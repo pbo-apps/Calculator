@@ -8,17 +8,6 @@
 
 import Foundation
 
-// Global function, like sqrt - is it internal or public though?
-func add(op1: Double, op2: Double) -> Double {
-    return op1 + op2
-}
-func subtract(op1: Double, op2: Double) -> Double {
-    return op1 - op2
-}
-func divide(op1: Double, op2: Double) -> Double {
-    return op1 / op2
-}
-
 class CalculatorBrain {
     
     // Type Double inferred from 0.0 (or indeed anyInt.anyInt)
@@ -35,10 +24,10 @@ class CalculatorBrain {
         "cos" : Operation.UnaryOperation(cos),
         "tan" : Operation.UnaryOperation(tan),
         "√" : Operation.UnaryOperation(sqrt),
-        "+" : Operation.BinaryOperation(add),
-        "-" : Operation.BinaryOperation(subtract),
+        "+" : Operation.BinaryOperation({ $0 + $1 }),
+        "-" : Operation.BinaryOperation({ $0 - $1 }),
         "×" : Operation.BinaryOperation({ $0 * $1 }),
-        "÷" : Operation.BinaryOperation(divide),
+        "÷" : Operation.BinaryOperation({ $0 / $1 }),
         "=" : Operation.Equals
     ]
     
