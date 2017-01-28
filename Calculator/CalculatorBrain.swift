@@ -25,10 +25,13 @@ class CalculatorBrain {
         "tan" : Operation.UnaryOperation({ __tanpi($0/180.0) }),
         "√" : Operation.UnaryOperation(sqrt),
         "±" : Operation.UnaryOperation({ -$0 }),
+        "%" : Operation.UnaryOperation({ $0 / 100.0 }),
         "+" : Operation.BinaryOperation({ $0 + $1 }),
         "-" : Operation.BinaryOperation({ $0 - $1 }),
         "×" : Operation.BinaryOperation({ $0 * $1 }),
         "÷" : Operation.BinaryOperation({ $0 / $1 }),
+        "xⁿ" : Operation.BinaryOperation(pow),
+        "ⁿ√" : Operation.BinaryOperation({ pow($0, (1 / $1)) }),
         "=" : Operation.Equals
     ]
     
