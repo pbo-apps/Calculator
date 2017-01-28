@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func touchDecimalPoint(_ sender: UIButton) {
+    @IBAction private func touchDecimalPoint(_ sender: UIButton) {
         if userIsInMiddleOfTyping {
             if !display.text!.contains(".") {
                 display.text!.append(".")
