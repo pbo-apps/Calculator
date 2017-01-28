@@ -10,11 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var display: UILabel!
+    @IBOutlet private weak var display: UILabel!
     
-    var userIsInMiddleOfTyping = false
+    private var userIsInMiddleOfTyping = false
 
-    @IBAction func touchDigit(_ sender: UIButton) {
+    @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInMiddleOfTyping {
             display.text?.append(digit)
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var displayValue: Double {
+    private var displayValue: Double {
         get {
             // Double initialiser returns an optional Double - if the string value cannot be converted it will return nil (not set)
             // By unwrapping it directly we are assuming the display will only ever contain a double
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func performOperation(_ sender: UIButton) {
+    @IBAction private func performOperation(_ sender: UIButton) {
         userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
             if mathematicalSymbol == "π" {
