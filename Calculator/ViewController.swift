@@ -38,14 +38,12 @@ class ViewController: UIViewController {
     private var brain = CalculatorBrain()
     
     @IBAction private func performOperation(_ sender: UIButton) {
-        if userIsInMiddleOfTyping {
-            brain.setOperand(operand: displayValue)
-            userIsInMiddleOfTyping = false
-        }
+        userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
+            brain.setOperand(operand: displayValue)
             brain.performOperation(symbol: mathematicalSymbol)
+            displayValue = brain.result
         }
-        displayValue = brain.result
     }
 }
 
