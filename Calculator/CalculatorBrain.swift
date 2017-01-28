@@ -60,13 +60,19 @@ class CalculatorBrain {
             case .UnaryOperation(let function):
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
+                executePendingBinaryOperation();
                 // Default constructor for a struct is one which takes all its vars
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
             case .Equals:
-                if pending != nil {
-                    accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
-                }
+                executePendingBinaryOperation();
             }
+        }
+    }
+    
+    private func executePendingBinaryOperation() {
+        if pending != nil {
+            accumulator = pending!.execute(secondOperand: accumulator)
+            pending = nil;
         }
     }
     
@@ -77,6 +83,9 @@ class CalculatorBrain {
     struct PendingBinaryOperationInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
+        func execute(secondOperand: Double) -> Double {
+            return binaryFunction(firstOperand, secondOperand)
+        }
     }
     
     var result: Double {
