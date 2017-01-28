@@ -20,9 +20,9 @@ class CalculatorBrain {
     private var operations: Dictionary<String, Operation> = [
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
-        "sin" : Operation.UnaryOperation(sin),
-        "cos" : Operation.UnaryOperation(cos),
-        "tan" : Operation.UnaryOperation(tan),
+        "sin" : Operation.UnaryOperation({ __sinpi($0/180.0) }),
+        "cos" : Operation.UnaryOperation({ __cospi($0/180.0) }),
+        "tan" : Operation.UnaryOperation({ __tanpi($0/180.0) }),
         "√" : Operation.UnaryOperation(sqrt),
         "±" : Operation.UnaryOperation({ -$0 }),
         "+" : Operation.BinaryOperation({ $0 + $1 }),
