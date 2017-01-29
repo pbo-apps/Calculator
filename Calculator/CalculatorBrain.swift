@@ -8,6 +8,12 @@
 
 import Foundation
 
+extension Double {
+    var cleanValue: String {
+        return self.truncatingRemainder(dividingBy: 1.0) == 0 ? String(format: "%.0f", self) : String(self)
+    }
+}
+
 class CalculatorBrain {
     
     // Type Double inferred from 0.0 (or indeed anyInt.anyInt)
@@ -73,7 +79,7 @@ class CalculatorBrain {
     private func executePendingBinaryOperation() {
         if pending != nil {
             if description!.hasSuffix(" ") {
-                description!.append(String(accumulator))
+                description!.append(accumulator.cleanValue)
             }
             accumulator = pending!.execute(secondOperand: accumulator)
             pending = nil;
@@ -128,7 +134,7 @@ class CalculatorBrain {
     
     private func updateDescriptionBinary(symbol: String, value: Double) {
         if description == nil {
-            description = String(value) + " "
+            description = value.cleanValue + " "
         } else {
             if !description!.hasSuffix(" ") {
                 description!.append(" ")
@@ -145,6 +151,6 @@ class CalculatorBrain {
     }
     
     private func inParentheses(value: Double) -> String {
-        return inParentheses(word: String(value))
+        return inParentheses(word: value.cleanValue)
     }
 }
