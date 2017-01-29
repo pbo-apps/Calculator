@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var display: UILabel!
     
+    @IBOutlet private weak var commandHistory: UILabel!
+    
     private var userIsInMiddleOfTyping = false
 
     @IBAction private func touchDigit(_ sender: UIButton) {
@@ -21,6 +23,9 @@ class ViewController: UIViewController {
         } else {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
+        }
+        if !brain.isPartialResult {
+            brain.description = nil
         }
     }
     
@@ -54,6 +59,7 @@ class ViewController: UIViewController {
             brain.setOperand(operand: displayValue)
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
+            updateCommandHistory()
         }
     }
     
@@ -68,5 +74,19 @@ class ViewController: UIViewController {
             displayValue = value
         }
     }
+    
+    private func updateCommandHistory() {
+        if let currentDescription = brain.description {
+            commandHistory.text = currentDescription
+            if brain.isPartialResult {
+                commandHistory.text?.append(" ...")
+            } else {
+                commandHistory.text?.append(" =")
+            }
+        } else {
+            commandHistory.text = " "
+        }
+    }
+    
 }
 

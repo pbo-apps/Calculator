@@ -48,24 +48,31 @@ class CalculatorBrain {
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let constantValue):
+                updateDescriptionConstant(symbol: symbol)
                 accumulator = constantValue
             case .UnaryOperation(let function):
+                updateDescriptionUnary(symbol: symbol, value: accumulator)
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 executePendingBinaryOperation();
                 // Default constructor for a struct is one which takes all its vars
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+                updateDescriptionBinary(symbol: symbol, value: accumulator)
             case .Equals:
                 executePendingBinaryOperation();
             case .Cancel:
                 accumulator = 0.0
                 pending = nil
+                description = nil
             }
         }
     }
     
     private func executePendingBinaryOperation() {
         if pending != nil {
+            if description!.hasSuffix(" ") {
+                description!.append(String(accumulator))
+            }
             accumulator = pending!.execute(secondOperand: accumulator)
             pending = nil;
         }
@@ -87,5 +94,55 @@ class CalculatorBrain {
         get {
             return accumulator
         }
+    }
+    
+    var isPartialResult: Bool {
+        get {
+            return pending != nil
+        }
+    }
+    
+    var description: String?
+    
+    private func updateDescriptionConstant(symbol: String) {
+        if isPartialResult {
+            description?.append(symbol)
+        } else {
+            description = symbol
+        }
+    }
+    
+    private func updateDescriptionUnary(symbol: String, value: Double) {
+        if (description == nil) {
+            description = symbol + inParentheses(value: value)
+        } else {
+            if isPartialResult {
+                description!.append(symbol + inParentheses(value: value))
+            } else {
+                description = symbol + inParentheses(word: description!)
+            }
+        }
+    }
+    
+    private func updateDescriptionBinary(symbol: String, value: Double) {
+        if description == nil {
+            description = String(value) + " "
+        } else {
+            if !description!.hasSuffix(" ") {
+                description!.append(" ")
+            }
+            if symbol == "×" || symbol == "÷" || symbol == "xⁿ" {
+                description = inParentheses(word: description!.trimmingCharacters(in: .whitespaces))
+            }
+        }
+        description!.append(symbol + " ")
+    }
+    
+    private func inParentheses(word: String) -> String {
+        return "(" + word + ")"
+    }
+    
+    private func inParentheses(value: Double) -> String {
+        return inParentheses(word: String(value))
     }
 }
