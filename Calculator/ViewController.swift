@@ -12,15 +12,31 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var display: UILabel!
     
+    @IBOutlet private weak var commandHistory: UILabel!
+    
     private var userIsInMiddleOfTyping = false
 
     @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInMiddleOfTyping {
-            display.text?.append(digit)
+            display.text!.append(digit)
         } else {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
+        }
+        if !brain.isPartialResult {
+            brain.description = nil
+        }
+    }
+    
+    @IBAction private func touchDecimalPoint(_ sender: UIButton) {
+        if userIsInMiddleOfTyping {
+            if !display.text!.contains(".") {
+                display.text!.append(".")
+            }
+        } else {
+            display.text = "0."
+            userIsInMiddleOfTyping = true
         }
     }
     
@@ -31,7 +47,7 @@ class ViewController: UIViewController {
             return Double(display.text!)!
         }
         set {
-            display.text = String(newValue)
+            display.text = newValue.cleanValue
         }
     }
     
@@ -43,7 +59,34 @@ class ViewController: UIViewController {
             brain.setOperand(operand: displayValue)
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
+            updateCommandHistory()
         }
     }
+    
+    private var memoryValue: Double?
+    
+    @IBAction private func setMemoryValue() {
+        memoryValue = displayValue
+    }
+    
+    @IBAction private func getMemoryValue() {
+        if let value = memoryValue {
+            displayValue = value
+        }
+    }
+    
+    private func updateCommandHistory() {
+        if let currentDescription = brain.description {
+            commandHistory.text = currentDescription
+            if brain.isPartialResult {
+                commandHistory.text?.append(" ...")
+            } else {
+                commandHistory.text?.append(" =")
+            }
+        } else {
+            commandHistory.text = " "
+        }
+    }
+    
 }
 
