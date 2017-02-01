@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         set {
             display.text = newValue.cleanValue
             if !userIsInMiddleOfTyping {
-                updateCommandHistory()
+                commandHistoryValue = brain.description ?? " "
             }
         }
     }
@@ -57,6 +57,16 @@ class ViewController: UIViewController {
     private var commandHistorySuffix: String {
         get {
             return brain.isPartialResult ? " ..." : " ="
+        }
+    }
+    
+    private var commandHistoryValue: String {
+        get {
+            return commandHistory.text!
+        }
+        set {
+            
+            commandHistory.text = newValue == " " ? newValue : newValue + commandHistorySuffix
         }
     }
     
@@ -93,15 +103,6 @@ class ViewController: UIViewController {
         if savedProgram != nil {
             brain.program = savedProgram!
             displayValue = brain.result
-        }
-    }
-    
-    private func updateCommandHistory() {
-        if let currentDescription = brain.description {
-            commandHistory.text = currentDescription
-            commandHistory.text?.append(commandHistorySuffix)
-        } else {
-            commandHistory.text = " "
         }
     }
     
