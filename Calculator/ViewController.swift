@@ -54,6 +54,12 @@ class ViewController: UIViewController {
         }
     }
     
+    private var commandHistorySuffix: String {
+        get {
+            return brain.isPartialResult ? " ..." : " ="
+        }
+    }
+    
     private var brain = CalculatorBrain()
     
     @IBAction private func performOperation(_ sender: UIButton) {
@@ -93,11 +99,7 @@ class ViewController: UIViewController {
     private func updateCommandHistory() {
         if let currentDescription = brain.description {
             commandHistory.text = currentDescription
-            if brain.isPartialResult {
-                commandHistory.text?.append(" ...")
-            } else {
-                commandHistory.text?.append(" =")
-            }
+            commandHistory.text?.append(commandHistorySuffix)
         } else {
             commandHistory.text = " "
         }
