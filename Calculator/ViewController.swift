@@ -48,6 +48,9 @@ class ViewController: UIViewController {
         }
         set {
             display.text = newValue.cleanValue
+            if !userIsInMiddleOfTyping {
+                updateCommandHistory()
+            }
         }
     }
     
@@ -59,7 +62,6 @@ class ViewController: UIViewController {
             brain.setOperand(operand: displayValue)
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
-            updateCommandHistory()
         }
     }
     
@@ -72,6 +74,19 @@ class ViewController: UIViewController {
     @IBAction private func getMemoryValue() {
         if let value = memoryValue {
             displayValue = value
+        }
+    }
+    
+    var savedProgram: CalculatorBrain.PropertyList?
+    
+    @IBAction func save() {
+        savedProgram = brain.program
+    }
+    
+    @IBAction func restore() {
+        if savedProgram != nil {
+            brain.program = savedProgram!
+            displayValue = brain.result
         }
     }
     

@@ -19,8 +19,11 @@ class CalculatorBrain {
     // Type Double inferred from 0.0 (or indeed anyInt.anyInt)
     private var accumulator = 0.0;
     
+    private var internalProgram = [AnyObject]()
+    
     func setOperand(operand: Double) {
         accumulator = operand
+        internalProgram.append(operand as AnyObject)
     }
     
     private var operations: Dictionary<String, Operation> = [
@@ -53,6 +56,7 @@ class CalculatorBrain {
     }
     
     func performOperation(symbol: String) {
+        internalProgram.append(symbol as AnyObject)
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let constantValue):
@@ -96,6 +100,36 @@ class CalculatorBrain {
         func execute(secondOperand: Double) -> Double {
             return binaryFunction(firstOperand, secondOperand)
         }
+    }
+    
+    typealias PropertyList = AnyObject
+    
+    var program: PropertyList {
+        get {
+            // Because this is an array (and therefore a value type) this returns a copy
+            // We therefore don't need to worry about external clients changing anything in here as our internal
+            // copy will remain as is
+            return internalProgram as PropertyList
+        }
+        set {
+            clear()
+            if let arrayOfOps = newValue as? [AnyObject] {
+                for op in arrayOfOps {
+                    if let operand = op as? Double {
+                        setOperand(operand: operand)
+                    } else if let operation = op as? String {
+                        performOperation(symbol: operation)
+                    }
+                }
+            }
+        }
+    }
+    
+    func clear() {
+        accumulator = 0.0
+        pending = nil
+        description = nil
+        internalProgram.removeAll()
     }
     
     var result: Double {
