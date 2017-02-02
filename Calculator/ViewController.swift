@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             userIsInMiddleOfTyping = digit != "0"
         }
         if !brain.isPartialResult {
-            brain.description = nil
+            brain.clear()
         }
     }
     
@@ -80,15 +80,20 @@ class ViewController: UIViewController {
         }
     }
     
-    private var memoryValue: Double?
+    private let variable: String = "MR"
     
     @IBAction private func setMemoryValue() {
-        memoryValue = displayValue
+        brain.variableValues[variable] = displayValue
+        userIsInMiddleOfTyping = false
     }
     
     @IBAction private func getMemoryValue() {
-        if let value = memoryValue {
+        if let value = brain.variableValues[variable] {
             displayValue = value
+            userIsInMiddleOfTyping = true
+            if !brain.isPartialResult {
+                brain.clear()
+            }
         }
     }
     

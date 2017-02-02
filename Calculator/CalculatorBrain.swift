@@ -26,6 +26,13 @@ class CalculatorBrain {
         internalProgram.append(operand as AnyObject)
     }
     
+    func setOperand(variableName: String) {
+        accumulator = variableValues[variableName] ?? 0.0
+        internalProgram.append(variableName as AnyObject)
+    }
+    
+    var variableValues: Dictionary<String, Double> = [:]
+    
     private var operations: Dictionary<String, Operation> = [
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
@@ -111,19 +118,23 @@ class CalculatorBrain {
         }
         set {
             clear()
-            if let arrayOfOps = newValue as? [AnyObject] {
-                for op in arrayOfOps {
-                    if let operand = op as? Double {
-                        setOperand(operand: operand)
-                    } else if let operation = op as? String {
-                        performOperation(symbol: operation)
+            let arrayOfOps = newValue as? [AnyObject] ?? [AnyObject]()
+            for op in arrayOfOps {
+                if let operand = op as? Double {
+                    setOperand(operand: operand)
+                } else if let storedString = op as? String {
+                    // Assume that variable names are unique from operator symbols
+                    if variableValues.keys.contains(storedString) {
+                        setOperand(variableName: storedString)
+                    } else {
+                        performOperation(symbol: storedString)
                     }
                 }
             }
         }
     }
     
-    private func clear() {
+    func clear() {
         accumulator = 0.0
         pending = nil
         description = nil
