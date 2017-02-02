@@ -65,7 +65,6 @@ class ViewController: UIViewController {
             return commandHistory.text!
         }
         set {
-            
             commandHistory.text = newValue == " " ? newValue : newValue + commandHistorySuffix
         }
     }
