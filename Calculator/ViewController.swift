@@ -24,6 +24,9 @@ class ViewController: UIViewController {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
         }
+        if !brain.isPartialResult {
+            brain.clear()
+        }
     }
     
     @IBAction private func touchDecimalPoint(_ sender: UIButton) {
@@ -34,6 +37,9 @@ class ViewController: UIViewController {
         } else {
             display.text = "0."
             userIsInMiddleOfTyping = true
+        }
+        if !brain.isPartialResult {
+            brain.clear()
         }
     }
     
@@ -71,26 +77,26 @@ class ViewController: UIViewController {
     @IBAction private func performOperation(_ sender: UIButton) {
         userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
-            if !brain.isPartialResult {
-                brain.clear()
-            }
             brain.setOperand(operand: displayValue)
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
         }
     }
     
-    private let variable: String = "MR"
-    
-    @IBAction private func setMemoryValue() {
+    @IBAction private func setVariable(_ sender: UIButton) {
+        var variable = sender.currentTitle!
+        variable.remove(at: variable.startIndex)
         brain.variableValues[variable] = displayValue
         userIsInMiddleOfTyping = false
     }
     
-    @IBAction private func getMemoryValue() {
-        if let value = brain.variableValues[variable] {
+    @IBAction private func getVariable(_ sender: UIButton) {
+        if let value = brain.variableValues[sender.currentTitle!] {
             displayValue = value
             userIsInMiddleOfTyping = true
+            if !brain.isPartialResult {
+                brain.clear()
+            }
         }
     }
     
