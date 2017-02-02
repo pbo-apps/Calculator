@@ -73,9 +73,7 @@ class CalculatorBrain {
             case .Equals:
                 executePendingBinaryOperation();
             case .Cancel:
-                accumulator = 0.0
-                pending = nil
-                description = nil
+                clear()
             }
         }
     }
@@ -125,7 +123,7 @@ class CalculatorBrain {
         }
     }
     
-    func clear() {
+    private func clear() {
         accumulator = 0.0
         pending = nil
         description = nil
