@@ -80,14 +80,23 @@ class ViewController: UIViewController {
     }
     
     private func setVariable(_ sender: UIButton) {
-        var variable = sender.currentTitle!
-        variable.remove(at: variable.startIndex)
-        brain.variableValues[variable] = displayValue
-        displayValue = brain.result
-        userIsInMiddleOfTyping = false
+        if let variable = sender.currentTitle {
+            brain.variableValues[variable] = displayValue
+            displayValue = brain.result
+            userIsInMiddleOfTyping = false
+        }
     }
     
-    @IBAction private func useVariable(_ sender: UIButton) {
+    @IBAction private func touchVariable(_ sender: UIButton) {
+        if userIsInputtingVariable {
+            setVariable(sender)
+            userIsInputtingVariable = false
+        } else {
+            useVariable(sender)
+        }
+    }
+    
+    private func useVariable(_ sender: UIButton) {
         brain.setOperand(variableName: sender.currentTitle!)
         displayValue = brain.result
         userIsInMiddleOfTyping = false
@@ -121,7 +130,11 @@ class ViewController: UIViewController {
     
     @IBAction func toggleVariableInput(_ sender: UIButton) {
         if let symbol = sender.currentTitle {
-            userIsInputtingVariable = (symbol == "→" && !userIsInputtingVariable)
+            if symbol == "→" {
+                userIsInputtingVariable = !userIsInputtingVariable
+            } else if userIsInputtingVariable {
+                userIsInputtingVariable = false
+            }
         }
     }
     
