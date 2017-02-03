@@ -24,9 +24,6 @@ class ViewController: UIViewController {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
         }
-        if !brain.isPartialResult {
-            brain.clear()
-        }
     }
     
     @IBAction private func touchDecimalPoint(_ sender: UIButton) {
@@ -37,9 +34,6 @@ class ViewController: UIViewController {
         } else {
             display.text = "0."
             userIsInMiddleOfTyping = true
-        }
-        if !brain.isPartialResult {
-            brain.clear()
         }
     }
     
@@ -75,9 +69,11 @@ class ViewController: UIViewController {
     private var brain = CalculatorBrain()
     
     @IBAction private func performOperation(_ sender: UIButton) {
-        userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
-            brain.setOperand(operand: displayValue)
+            if userIsInMiddleOfTyping {
+                brain.setOperand(operand: displayValue)
+            }
+            userIsInMiddleOfTyping = false
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
         }
@@ -87,26 +83,23 @@ class ViewController: UIViewController {
         var variable = sender.currentTitle!
         variable.remove(at: variable.startIndex)
         brain.variableValues[variable] = displayValue
+        displayValue = brain.result
         userIsInMiddleOfTyping = false
     }
     
-    @IBAction private func getVariable(_ sender: UIButton) {
-        if let value = brain.variableValues[sender.currentTitle!] {
-            displayValue = value
-            userIsInMiddleOfTyping = true
-            if !brain.isPartialResult {
-                brain.clear()
-            }
-        }
+    @IBAction private func useVariable(_ sender: UIButton) {
+        brain.setOperand(variableName: sender.currentTitle!)
+        displayValue = brain.result
+        userIsInMiddleOfTyping = false
     }
     
-    var savedProgram: CalculatorBrain.PropertyList?
+    private var savedProgram: CalculatorBrain.PropertyList?
     
-    @IBAction func save() {
+    @IBAction private func save() {
         savedProgram = brain.program
     }
     
-    @IBAction func restore() {
+    @IBAction private func restore() {
         if savedProgram != nil {
             userIsInMiddleOfTyping = false
             brain.program = savedProgram!

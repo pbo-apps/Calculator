@@ -21,17 +21,41 @@ class CalculatorBrain {
     
     private var internalProgram = [AnyObject]()
     
+    private var currentVariable: String?
+    private var currentOperand: String {
+        get {
+            let operand = currentVariable ?? accumulator.cleanValue
+            currentVariable = nil
+            return operand
+        }
+    }
+    
     func setOperand(operand: Double) {
-        accumulator = operand
-        internalProgram.append(operand as AnyObject)
+        // If we have a current variable then no need to setOperand as it's already been set
+        if currentVariable == nil {
+            if !isPartialResult {
+                clear()
+            }
+            accumulator = operand
+            internalProgram.append(operand as AnyObject)
+        }
     }
     
     func setOperand(variableName: String) {
+        if !isPartialResult {
+            clear()
+        }
         accumulator = variableValues[variableName] ?? 0.0
+        currentVariable = variableName
         internalProgram.append(variableName as AnyObject)
     }
     
-    var variableValues: Dictionary<String, Double> = [:]
+    var variableValues: Dictionary<String, Double> = [:] {
+        didSet {
+            // Re-run the current program with the new value
+            program = internalProgram as PropertyList
+        }
+    }
     
     private var operations: Dictionary<String, Operation> = [
         "π" : Operation.Constant(M_PI),
@@ -70,17 +94,18 @@ class CalculatorBrain {
                 updateDescriptionConstant(symbol: symbol)
                 accumulator = constantValue
             case .UnaryOperation(let function):
-                updateDescriptionUnary(symbol: symbol, value: accumulator)
+                updateDescriptionUnary(symbol: symbol)
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 executePendingBinaryOperation();
                 // Default constructor for a struct is one which takes all its vars
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
-                updateDescriptionBinary(symbol: symbol, value: accumulator)
+                updateDescriptionBinary(symbol: symbol)
             case .Equals:
                 executePendingBinaryOperation();
             case .Cancel:
                 clear()
+                variableValues.removeAll()
             }
         }
     }
@@ -88,7 +113,7 @@ class CalculatorBrain {
     private func executePendingBinaryOperation() {
         if pending != nil {
             if description!.hasSuffix(" ") {
-                description!.append(accumulator.cleanValue)
+                description!.append(currentOperand)
             }
             accumulator = pending!.execute(secondOperand: accumulator)
             pending = nil;
@@ -124,17 +149,17 @@ class CalculatorBrain {
                     setOperand(operand: operand)
                 } else if let storedString = op as? String {
                     // Assume that variable names are unique from operator symbols
-                    if variableValues.keys.contains(storedString) {
-                        setOperand(variableName: storedString)
-                    } else {
+                    if operations.keys.contains(storedString) {
                         performOperation(symbol: storedString)
+                    } else {
+                        setOperand(variableName: storedString)
                     }
                 }
             }
         }
     }
     
-    func clear() {
+    private func clear() {
         accumulator = 0.0
         pending = nil
         description = nil
@@ -163,21 +188,21 @@ class CalculatorBrain {
         }
     }
     
-    private func updateDescriptionUnary(symbol: String, value: Double) {
+    private func updateDescriptionUnary(symbol: String) {
         if (description == nil) {
-            description = symbol + inParentheses(value: value)
+            description = symbol + inParentheses(word: currentOperand)
         } else {
             if isPartialResult {
-                description!.append(symbol + inParentheses(value: value))
+                description!.append(symbol + inParentheses(word: currentOperand))
             } else {
                 description = symbol + inParentheses(word: description!)
             }
         }
     }
     
-    private func updateDescriptionBinary(symbol: String, value: Double) {
+    private func updateDescriptionBinary(symbol: String) {
         if description == nil {
-            description = value.cleanValue + " "
+            description = currentOperand + " "
         } else {
             if !description!.hasSuffix(" ") {
                 description!.append(" ")
