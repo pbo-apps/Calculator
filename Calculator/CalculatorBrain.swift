@@ -68,6 +68,8 @@ class CalculatorBrain {
         "%" : Operation.UnaryOperation({ $0 / 100.0 }),
         "±" : Operation.UnaryOperation({ -$0 }),
         "log" : Operation.UnaryOperation({ log($0) }),
+        "ln" : Operation.UnaryOperation({ log($0)/log(M_E) }),
+        "10ⁿ" : Operation.UnaryOperation({ pow(10, $0) }),
         "+" : Operation.BinaryOperation({ $0 + $1 }),
         "-" : Operation.BinaryOperation({ $0 - $1 }),
         "×" : Operation.BinaryOperation({ $0 * $1 }),

@@ -128,7 +128,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func toggleVariableInput(_ sender: UIButton) {
+    @IBAction private func toggleVariableInput(_ sender: UIButton) {
         if let symbol = sender.currentTitle {
             if symbol == "→" {
                 userIsInputtingVariable = !userIsInputtingVariable
