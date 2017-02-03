@@ -223,4 +223,24 @@ class CalculatorBrain {
     private func inParentheses(value: Double) -> String {
         return inParentheses(word: value.cleanValue)
     }
+    
+    enum TrigUnit {
+        case Degrees
+        case Radians
+    }
+    
+    var trigSetting = TrigUnit.Degrees {
+        willSet {
+            switch (newValue) {
+            case TrigUnit.Radians:
+                operations["sin"] = Operation.UnaryOperation({ sin($0) })
+                operations["cos"] = Operation.UnaryOperation({ cos($0) })
+                operations["tan"] = Operation.UnaryOperation({ tan($0) })
+            case TrigUnit.Degrees:
+                operations["sin"] = Operation.UnaryOperation({ __sinpi($0/180.0) })
+                operations["cos"] = Operation.UnaryOperation({ __cospi($0/180.0) })
+                operations["tan"] = Operation.UnaryOperation({ __tanpi($0/180.0) })
+            }
+        }
+    }
 }

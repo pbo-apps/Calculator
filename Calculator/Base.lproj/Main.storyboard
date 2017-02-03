@@ -50,8 +50,20 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DuE-lO-oll">
                                                 <rect key="frame" x="0.0" y="0.0" width="627" height="33.5"/>
                                                 <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMA-da-C9e">
+                                                        <rect key="frame" x="0.0" y="0.0" width="205.5" height="33.5"/>
+                                                        <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                        <state key="normal" title="AC">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qzz-q4-4Gz"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7BH-BH-RPS"/>
+                                                        </connections>
+                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96f-yF-wAS">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="33.5"/>
+                                                        <rect key="frame" x="210.5" y="0.0" width="206" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                         <state key="normal" title="save">
@@ -62,7 +74,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrg-ro-aGl">
-                                                        <rect key="frame" x="316" y="0.0" width="311" height="33.5"/>
+                                                        <rect key="frame" x="421.5" y="0.0" width="205.5" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                         <state key="normal" title="restore">
@@ -148,19 +160,18 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tpr-1h-0th">
                                                 <rect key="frame" x="0.0" y="77.5" width="627" height="33.5"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQF-ze-hEW">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ge-Va-1WX">
                                                         <rect key="frame" x="0.0" y="0.0" width="100.5" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="e">
+                                                        <state key="normal" title="Rad">
                                                             <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ovt-B1-7JW"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Clf-6u-sez"/>
+                                                            <action selector="toggleRadiansAndDegrees:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8lF-VH-Oj1"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ge-Va-1WX">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fd0-6A-sMh">
                                                         <rect key="frame" x="105.5" y="0.0" width="100" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -168,8 +179,8 @@
                                                             <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dKY-v1-58b"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kSo-ls-RWO"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hFS-qf-Zds"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wB5-Rk-8Pt"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0t-Q0-tOH">
@@ -225,16 +236,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-q7-jSx">
                                                 <rect key="frame" x="0.0" y="116" width="627" height="33.5"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNM-GL-Zbb">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQF-ze-hEW">
                                                         <rect key="frame" x="0.0" y="0.0" width="100.5" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="ln">
+                                                        <state key="normal" title="e">
                                                             <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ItQ-Dt-lVk"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JQ1-M1-DXS"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ovt-B1-7JW"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Clf-6u-sez"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anb-VD-Yoe">
@@ -302,16 +313,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Dmf-vO-FDi">
                                                 <rect key="frame" x="0.0" y="154.5" width="627" height="33.5"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnc-Mi-axf">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNM-GL-Zbb">
                                                         <rect key="frame" x="0.0" y="0.0" width="99.5" height="33.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="10ⁿ">
+                                                        <state key="normal" title="ln">
                                                             <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0zj-7o-7dH"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uua-LT-G5g"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ItQ-Dt-lVk"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JQ1-M1-DXS"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCh-qS-Wzj">
@@ -379,16 +390,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="29l-aO-EZ1">
                                                 <rect key="frame" x="0.0" y="193" width="627" height="34"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rma-l7-4Qm">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnc-Mi-axf">
                                                         <rect key="frame" x="0.0" y="0.0" width="100.5" height="34"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="log">
+                                                        <state key="normal" title="10ⁿ">
                                                             <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Dbj-FQ-hB0"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0pd-fQ-Fm8"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0zj-7o-7dH"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uua-LT-G5g"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJv-J7-iQh">
@@ -456,16 +467,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Kay-3W-41R">
                                                 <rect key="frame" x="0.0" y="232" width="627" height="33.5"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMA-da-C9e">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rma-l7-4Qm">
                                                         <rect key="frame" x="0.0" y="0.0" width="100.5" height="33.5"/>
-                                                        <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="AC">
-                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="log">
+                                                            <color key="titleColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qzz-q4-4Gz"/>
-                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7BH-BH-RPS"/>
+                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Dbj-FQ-hB0"/>
+                                                            <action selector="toggleVariableInput:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0pd-fQ-Fm8"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6D-lP-ySP">
