@@ -110,7 +110,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var inputVariable: UIButton!
     
     private var inputVariableButtonBackgroundColor: UIColor?
-    private var isUserInputtingVariable: Bool = false {
+    private var userIsInputtingVariable: Bool = false {
         willSet {
             if inputVariableButtonBackgroundColor == nil {
                 inputVariableButtonBackgroundColor = inputVariable.backgroundColor
@@ -121,7 +121,7 @@ class ViewController: UIViewController {
     
     @IBAction func toggleVariableInput(_ sender: UIButton) {
         if let symbol = sender.currentTitle {
-            isUserInputtingVariable = (symbol == "→" && !isUserInputtingVariable)
+            userIsInputtingVariable = (symbol == "→" && !userIsInputtingVariable)
         }
     }
     
