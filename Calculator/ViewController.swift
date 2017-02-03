@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction private func setVariable(_ sender: UIButton) {
+    private func setVariable(_ sender: UIButton) {
         var variable = sender.currentTitle!
         variable.remove(at: variable.startIndex)
         brain.variableValues[variable] = displayValue
@@ -104,6 +104,24 @@ class ViewController: UIViewController {
             userIsInMiddleOfTyping = false
             brain.program = savedProgram!
             displayValue = brain.result
+        }
+    }
+    
+    @IBOutlet weak var inputVariable: UIButton!
+    
+    private var inputVariableButtonBackgroundColor: UIColor?
+    private var isUserInputtingVariable: Bool = false {
+        willSet {
+            if inputVariableButtonBackgroundColor == nil {
+                inputVariableButtonBackgroundColor = inputVariable.backgroundColor
+            }
+            inputVariable.backgroundColor = newValue ? UIColor.orange : inputVariableButtonBackgroundColor!
+        }
+    }
+    
+    @IBAction func toggleVariableInput(_ sender: UIButton) {
+        if let symbol = sender.currentTitle {
+            isUserInputtingVariable = (symbol == "→" && !isUserInputtingVariable)
         }
     }
     
