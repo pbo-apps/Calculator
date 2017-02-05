@@ -147,5 +147,15 @@ class ViewController: UIViewController {
             brain.trigSetting = CalculatorBrain.TrigUnit.Radians
         }
     }
+    
+    @IBAction func undo() {
+        if userIsInMiddleOfTyping {
+            if display.text!.characters.count > 1 {
+                display.text!.remove(at: display.text!.index(before: display.text!.endIndex))
+            } else {
+                display.text = "0"
+            }
+        }
+    }
 }
 
