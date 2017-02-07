@@ -21,18 +21,24 @@ class CalculatorBrain {
     
     private var internalProgram = [AnyObject]()
     
+    private var currentConstant: String?
     private var currentOperand: String {
         get {
-            return accumulator.cleanValue
+            let operand = currentConstant ?? accumulator.cleanValue
+            currentConstant = nil
+            return operand
         }
     }
     
     func setOperand(operand: Double) {
-        if !isPartialResult {
-            clear()
+        // If we have a current constant/variable then no need to setOperand as it's already been set
+        if currentConstant == nil {
+            if !isPartialResult {
+                clear()
+            }
+            accumulator = operand
+            internalProgram.append(operand as AnyObject)
         }
-        accumulator = operand
-        internalProgram.append(operand as AnyObject)
     }
     
     func setOperand(variableName: String) {
@@ -194,7 +200,8 @@ class CalculatorBrain {
     
     private func updateDescriptionConstant(symbol: String) {
         if isPartialResult {
-            description?.append(symbol)
+            currentConstant = symbol
+            //description?.append(symbol)
         } else {
             description = symbol
         }
