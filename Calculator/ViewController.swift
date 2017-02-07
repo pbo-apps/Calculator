@@ -24,9 +24,6 @@ class ViewController: UIViewController {
             display.text = digit
             userIsInMiddleOfTyping = digit != "0"
         }
-        if !brain.isPartialResult {
-            brain.description = nil
-        }
     }
     
     @IBAction private func touchDecimalPoint(_ sender: UIButton) {
@@ -72,38 +69,97 @@ class ViewController: UIViewController {
     private var brain = CalculatorBrain()
     
     @IBAction private func performOperation(_ sender: UIButton) {
-        userIsInMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
-            brain.setOperand(operand: displayValue)
+            if userIsInMiddleOfTyping {
+                brain.setOperand(operand: displayValue)
+            }
+            userIsInMiddleOfTyping = false
             brain.performOperation(symbol: mathematicalSymbol)
             displayValue = brain.result
         }
     }
     
-    private var memoryValue: Double?
-    
-    @IBAction private func setMemoryValue() {
-        memoryValue = displayValue
-    }
-    
-    @IBAction private func getMemoryValue() {
-        if let value = memoryValue {
-            displayValue = value
+    private func setVariable(_ sender: UIButton) {
+        if let variable = sender.currentTitle {
+            brain.variableValues[variable] = displayValue
+            displayValue = brain.result
+            userIsInMiddleOfTyping = false
         }
     }
     
-    var savedProgram: CalculatorBrain.PropertyList?
+    @IBAction private func touchVariable(_ sender: UIButton) {
+        if userIsInputtingVariable {
+            setVariable(sender)
+            userIsInputtingVariable = false
+        } else {
+            useVariable(sender)
+        }
+    }
     
-    @IBAction func save() {
+    private func useVariable(_ sender: UIButton) {
+        brain.setOperand(variableName: sender.currentTitle!)
+        displayValue = brain.result
+        userIsInMiddleOfTyping = false
+    }
+    
+    private var savedProgram: CalculatorBrain.PropertyList?
+    
+    @IBAction private func save() {
         savedProgram = brain.program
     }
     
-    @IBAction func restore() {
+    @IBAction private func restore() {
         if savedProgram != nil {
+            userIsInMiddleOfTyping = false
             brain.program = savedProgram!
             displayValue = brain.result
         }
     }
     
+    @IBOutlet weak var inputVariable: UIButton!
+    
+    private var inputVariableButtonBackgroundColor: UIColor?
+    private var userIsInputtingVariable: Bool = false {
+        willSet {
+            if inputVariableButtonBackgroundColor == nil {
+                inputVariableButtonBackgroundColor = inputVariable.backgroundColor
+            }
+            inputVariable.backgroundColor = newValue ? UIColor.orange : inputVariableButtonBackgroundColor!
+        }
+    }
+    
+    @IBAction private func toggleVariableInput(_ sender: UIButton) {
+        if let symbol = sender.currentTitle {
+            if symbol == "→" {
+                userIsInputtingVariable = !userIsInputtingVariable
+            } else if userIsInputtingVariable {
+                userIsInputtingVariable = false
+            }
+        }
+    }
+    
+    @IBAction func toggleRadiansAndDegrees(_ sender: UIButton) {
+        if sender.currentTitle! == "Deg" {
+            sender.setTitle("Rad", for: UIControlState.normal)
+            brain.trigSetting = CalculatorBrain.TrigUnit.Degrees
+        } else {
+            sender.setTitle("Deg", for: UIControlState.normal)
+            brain.trigSetting = CalculatorBrain.TrigUnit.Radians
+        }
+        displayValue = brain.result
+    }
+    
+    @IBAction func undo() {
+        if userIsInMiddleOfTyping {
+            if display.text!.characters.count > 1 {
+                display.text!.remove(at: display.text!.index(before: display.text!.endIndex))
+            } else {
+                display.text = "0"
+            }
+        } else {
+            brain.undoLastOperation()
+            displayValue = brain.result
+        }
+    }
 }
 

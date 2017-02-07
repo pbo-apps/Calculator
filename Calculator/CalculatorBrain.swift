@@ -21,9 +21,39 @@ class CalculatorBrain {
     
     private var internalProgram = [AnyObject]()
     
+    private var currentConstant: String?
+    private var currentOperand: String {
+        get {
+            let operand = currentConstant ?? accumulator.cleanValue
+            currentConstant = nil
+            return operand
+        }
+    }
+    
     func setOperand(operand: Double) {
-        accumulator = operand
-        internalProgram.append(operand as AnyObject)
+        // If we have a current constant/variable then no need to setOperand as it's already been set
+        if currentConstant == nil {
+            if !isPartialResult {
+                clear()
+            }
+            accumulator = operand
+            internalProgram.append(operand as AnyObject)
+        }
+    }
+    
+    func setOperand(variableName: String) {
+        if !isPartialResult {
+            clear()
+        }
+        operations[variableName] = Operation.Constant(variableValues[variableName] ?? 0.0)
+        performOperation(symbol: variableName)
+    }
+    
+    var variableValues: Dictionary<String, Double> = [:] {
+        didSet {
+            // Re-run the current program with the new value
+            repeatProgram()
+        }
     }
     
     private var operations: Dictionary<String, Operation> = [
@@ -37,6 +67,8 @@ class CalculatorBrain {
         "%" : Operation.UnaryOperation({ $0 / 100.0 }),
         "±" : Operation.UnaryOperation({ -$0 }),
         "log" : Operation.UnaryOperation({ log($0) }),
+        "ln" : Operation.UnaryOperation({ log($0)/log(M_E) }),
+        "10ⁿ" : Operation.UnaryOperation({ pow(10, $0) }),
         "+" : Operation.BinaryOperation({ $0 + $1 }),
         "-" : Operation.BinaryOperation({ $0 - $1 }),
         "×" : Operation.BinaryOperation({ $0 * $1 }),
@@ -63,17 +95,18 @@ class CalculatorBrain {
                 updateDescriptionConstant(symbol: symbol)
                 accumulator = constantValue
             case .UnaryOperation(let function):
-                updateDescriptionUnary(symbol: symbol, value: accumulator)
+                updateDescriptionUnary(symbol: symbol)
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 executePendingBinaryOperation();
                 // Default constructor for a struct is one which takes all its vars
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
-                updateDescriptionBinary(symbol: symbol, value: accumulator)
+                updateDescriptionBinary(symbol: symbol)
             case .Equals:
                 executePendingBinaryOperation();
             case .Cancel:
                 clear()
+                clearVariables()
             }
         }
     }
@@ -81,7 +114,7 @@ class CalculatorBrain {
     private func executePendingBinaryOperation() {
         if pending != nil {
             if description!.hasSuffix(" ") {
-                description!.append(accumulator.cleanValue)
+                description!.append(currentOperand)
             }
             accumulator = pending!.execute(secondOperand: accumulator)
             pending = nil;
@@ -111,16 +144,30 @@ class CalculatorBrain {
         }
         set {
             clear()
-            if let arrayOfOps = newValue as? [AnyObject] {
-                for op in arrayOfOps {
-                    if let operand = op as? Double {
-                        setOperand(operand: operand)
-                    } else if let operation = op as? String {
-                        performOperation(symbol: operation)
+            let arrayOfOps = newValue as? [AnyObject] ?? [AnyObject]()
+            for op in arrayOfOps {
+                if let operand = op as? Double {
+                    setOperand(operand: operand)
+                } else if let storedString = op as? String {
+                    // Assume that variable names are unique from operator symbols
+                    if operations.keys.contains(storedString) {
+                        performOperation(symbol: storedString)
+                    } else {
+                        setOperand(variableName: storedString)
                     }
                 }
             }
         }
+    }
+    
+    func undoLastOperation() {
+        if internalProgram.popLast() != nil {
+            repeatProgram()
+        }
+    }
+    
+    private func repeatProgram() {
+        program = internalProgram as PropertyList
     }
     
     private func clear() {
@@ -128,6 +175,13 @@ class CalculatorBrain {
         pending = nil
         description = nil
         internalProgram.removeAll()
+        for variable in variableValues.keys {
+            operations[variable] = nil
+        }
+    }
+    
+    private func clearVariables() {
+        variableValues.removeAll()
     }
     
     var result: Double {
@@ -146,27 +200,28 @@ class CalculatorBrain {
     
     private func updateDescriptionConstant(symbol: String) {
         if isPartialResult {
-            description?.append(symbol)
+            currentConstant = symbol
+            //description?.append(symbol)
         } else {
             description = symbol
         }
     }
     
-    private func updateDescriptionUnary(symbol: String, value: Double) {
+    private func updateDescriptionUnary(symbol: String) {
         if (description == nil) {
-            description = symbol + inParentheses(value: value)
+            description = symbol + inParentheses(word: currentOperand)
         } else {
             if isPartialResult {
-                description!.append(symbol + inParentheses(value: value))
+                description!.append(symbol + inParentheses(word: currentOperand))
             } else {
                 description = symbol + inParentheses(word: description!)
             }
         }
     }
     
-    private func updateDescriptionBinary(symbol: String, value: Double) {
+    private func updateDescriptionBinary(symbol: String) {
         if description == nil {
-            description = value.cleanValue + " "
+            description = currentOperand + " "
         } else {
             if !description!.hasSuffix(" ") {
                 description!.append(" ")
@@ -184,5 +239,28 @@ class CalculatorBrain {
     
     private func inParentheses(value: Double) -> String {
         return inParentheses(word: value.cleanValue)
+    }
+    
+    enum TrigUnit {
+        case Degrees
+        case Radians
+    }
+    
+    var trigSetting = TrigUnit.Degrees {
+        willSet {
+            switch (newValue) {
+            case TrigUnit.Radians:
+                operations["sin"] = Operation.UnaryOperation({ sin($0) })
+                operations["cos"] = Operation.UnaryOperation({ cos($0) })
+                operations["tan"] = Operation.UnaryOperation({ tan($0) })
+            case TrigUnit.Degrees:
+                operations["sin"] = Operation.UnaryOperation({ __sinpi($0/180.0) })
+                operations["cos"] = Operation.UnaryOperation({ __cospi($0/180.0) })
+                operations["tan"] = Operation.UnaryOperation({ __tanpi($0/180.0) })
+            }
+        }
+        didSet {
+            repeatProgram()
+        }
     }
 }
