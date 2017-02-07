@@ -146,6 +146,7 @@ class ViewController: UIViewController {
             sender.setTitle("Deg", for: UIControlState.normal)
             brain.trigSetting = CalculatorBrain.TrigUnit.Radians
         }
+        displayValue = brain.result
     }
     
     @IBAction func undo() {

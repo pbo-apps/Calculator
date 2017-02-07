@@ -46,7 +46,7 @@ class CalculatorBrain {
     var variableValues: Dictionary<String, Double> = [:] {
         didSet {
             // Re-run the current program with the new value
-            program = internalProgram as PropertyList
+            repeatProgram()
         }
     }
     
@@ -156,8 +156,12 @@ class CalculatorBrain {
     
     func undoLastOperation() {
         if internalProgram.popLast() != nil {
-            program = internalProgram as PropertyList
+            repeatProgram()
         }
+    }
+    
+    private func repeatProgram() {
+        program = internalProgram as PropertyList
     }
     
     private func clear() {
@@ -247,6 +251,9 @@ class CalculatorBrain {
                 operations["cos"] = Operation.UnaryOperation({ __cospi($0/180.0) })
                 operations["tan"] = Operation.UnaryOperation({ __tanpi($0/180.0) })
             }
+        }
+        didSet {
+            repeatProgram()
         }
     }
 }
