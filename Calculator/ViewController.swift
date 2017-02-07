@@ -155,6 +155,9 @@ class ViewController: UIViewController {
             } else {
                 display.text = "0"
             }
+        } else {
+            brain.undoLastOperation()
+            displayValue = brain.result
         }
     }
 }

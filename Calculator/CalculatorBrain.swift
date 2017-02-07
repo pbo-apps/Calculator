@@ -22,7 +22,7 @@ class CalculatorBrain {
     private var internalProgram = [AnyObject]()
     
     private var currentOperand: String {
-        get {j
+        get {
             return accumulator.cleanValue
         }
     }
@@ -151,6 +151,12 @@ class CalculatorBrain {
                     }
                 }
             }
+        }
+    }
+    
+    func undoLastOperation() {
+        if internalProgram.popLast() != nil {
+            program = internalProgram as PropertyList
         }
     }
     
