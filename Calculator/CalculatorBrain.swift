@@ -21,33 +21,26 @@ class CalculatorBrain {
     
     private var internalProgram = [AnyObject]()
     
-    private var currentVariable: String?
     private var currentOperand: String {
-        get {
-            let operand = currentVariable ?? accumulator.cleanValue
-            currentVariable = nil
-            return operand
+        get {j
+            return accumulator.cleanValue
         }
     }
     
     func setOperand(operand: Double) {
-        // If we have a current variable then no need to setOperand as it's already been set
-        if currentVariable == nil {
-            if !isPartialResult {
-                clear()
-            }
-            accumulator = operand
-            internalProgram.append(operand as AnyObject)
+        if !isPartialResult {
+            clear()
         }
+        accumulator = operand
+        internalProgram.append(operand as AnyObject)
     }
     
     func setOperand(variableName: String) {
         if !isPartialResult {
             clear()
         }
-        accumulator = variableValues[variableName] ?? 0.0
-        currentVariable = variableName
-        internalProgram.append(variableName as AnyObject)
+        operations[variableName] = Operation.Constant(variableValues[variableName] ?? 0.0)
+        performOperation(symbol: variableName)
     }
     
     var variableValues: Dictionary<String, Double> = [:] {
@@ -107,7 +100,7 @@ class CalculatorBrain {
                 executePendingBinaryOperation();
             case .Cancel:
                 clear()
-                variableValues.removeAll()
+                clearVariables()
             }
         }
     }
@@ -166,6 +159,13 @@ class CalculatorBrain {
         pending = nil
         description = nil
         internalProgram.removeAll()
+        for variable in variableValues.keys {
+            operations[variable] = nil
+        }
+    }
+    
+    private func clearVariables() {
+        variableValues.removeAll()
     }
     
     var result: Double {
