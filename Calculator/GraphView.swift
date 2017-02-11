@@ -12,11 +12,15 @@ import UIKit
 class GraphView: UIView {
 
     @IBInspectable
+    var origin: CGPoint? { didSet { setNeedsDisplay() } }
+    @IBInspectable
     var scale: CGFloat = 0.90 { didSet { setNeedsDisplay() } }
     @IBInspectable
-    var color: UIColor = UIColor.green { didSet { setNeedsDisplay() } }
+    var lineColor = UIColor.green { didSet { setNeedsDisplay() } }
     @IBInspectable
     var lineWidth: CGFloat = 5.0 { didSet { setNeedsDisplay() } }
+    @IBInspectable
+    var axesColor = UIColor.black { didSet { setNeedsDisplay() } }
     
     private var triangleSideLength: CGFloat {
         return min(bounds.size.width, bounds.size.height) * scale
@@ -26,6 +30,18 @@ class GraphView: UIView {
     }
     private var triangleInternalAngle: CGFloat {
         return CGFloat(M_PI / 3.0)
+    }
+    
+    private var defaultOrigin: CGPoint {
+        return CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+    
+    private var axesDrawer = AxesDrawer()
+    
+    private func drawAxes(in rect: CGRect) {
+        axesDrawer.contentScaleFactor = contentScaleFactor
+        axesDrawer.color = axesColor
+        axesDrawer.drawAxes(in: rect, origin: origin ?? defaultOrigin, pointsPerUnit: scale)
     }
     
     private func pathForEquilateralTriangle(withCenter center: CGPoint, andSideLength sideLength: CGFloat) -> UIBezierPath {
@@ -46,8 +62,9 @@ class GraphView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        color.set()
+        lineColor.set()
         pathForEquilateralTriangle(withCenter: triangleCenter, andSideLength: triangleSideLength).stroke()
+        drawAxes(in: rect)
     }
 
 }
