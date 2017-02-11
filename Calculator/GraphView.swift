@@ -41,6 +41,28 @@ class GraphView: UIView {
         }
     }
     
+    var beginPanPoint: CGPoint?
+    
+    func moveOrigin(_ recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            beginPanPoint = recognizer.translation(in: self)
+        case .changed, .ended:
+            let panPoint = recognizer.translation(in: self)
+            translateOrigin(byX: panPoint.x - beginPanPoint!.x, andY: panPoint.y - beginPanPoint!.y)
+            beginPanPoint = recognizer.state == .ended ? nil : panPoint
+        default:
+            beginPanPoint = nil
+        }
+    }
+    
+    private func translateOrigin(byX x: CGFloat, andY y: CGFloat) {
+        origin = CGPoint(
+            x: graphOrigin.x + x,
+            y: graphOrigin.y + y
+        )
+    }
+    
     private var graphOrigin: CGPoint {
         return origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
     }
@@ -96,4 +118,8 @@ class GraphView: UIView {
         drawAxes(in: rect)
     }
 
+}
+
+extension CGPoint {
+    
 }

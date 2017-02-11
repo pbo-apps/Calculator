@@ -19,7 +19,7 @@ class CalculatorViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Storyboard.DrawGraphSegue {
             if let graphView = segue.destination.contentViewController as? GraphViewController {
-                graphView.scale = 10.0
+                graphView.pointsPerUnit = 10.0
                 graphView.title = (sender as? UIButton)?.currentTitle
             }
         }
