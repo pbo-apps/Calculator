@@ -16,11 +16,11 @@ class GraphView: UIView {
     @IBInspectable
     var pointsPerUnit: CGFloat = 1.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
-    var lineColor = UIColor.green { didSet { setNeedsDisplay() } }
+    var lineColor: UIColor = UIColor.green { didSet { setNeedsDisplay() } }
     @IBInspectable
     var lineWidth: CGFloat = 5.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
-    var axesColor = UIColor.black { didSet { setNeedsDisplay() } }
+    var axesColor: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
     private var graphOrigin: CGPoint {
         return origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
@@ -43,6 +43,7 @@ class GraphView: UIView {
     
     private func pathForFunction(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
+        path.lineWidth = lineWidth
         var dataPoint: CGPoint?
         
         for xPixel in stride(from: pixel(at: bounds.minX), to: pixel(at: bounds.maxX), by: 1.0) {
@@ -67,7 +68,7 @@ class GraphView: UIView {
     }
     
     private func calculateY(for x: CGFloat) -> CGFloat {
-        return pow(x, 0.5)
+        return 20 * sin(x)
     }
     
     override func draw(_ rect: CGRect) {
