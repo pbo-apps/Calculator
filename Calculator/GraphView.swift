@@ -32,6 +32,15 @@ class GraphView: UIView {
         }
     }
     
+    func setOrigin(_ recognizer: UITapGestureRecognizer) {
+        switch recognizer.state {
+        case .ended:
+            origin = recognizer.location(in: self)
+        default:
+            break
+        }
+    }
+    
     private var graphOrigin: CGPoint {
         return origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
     }
