@@ -59,6 +59,9 @@
                             <constraint firstItem="hQk-lf-RZi" firstAttribute="leading" secondItem="rvX-ZF-oOf" secondAttribute="leading" id="ifv-z7-VWj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="graphView" destination="hQk-lf-RZi" id="7PX-ip-enq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aVF-5w-8Bh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -227,7 +230,7 @@
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="SA9-u8-ksl" kind="showDetail" id="M17-qb-nzP"/>
+                                                            <segue destination="SA9-u8-ksl" kind="showDetail" identifier="Draw Graph" id="M17-qb-nzP"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

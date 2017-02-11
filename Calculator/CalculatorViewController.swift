@@ -10,6 +10,20 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
+    private struct Storyboard {
+        static let DrawGraphSegue = "Draw Graph"
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Storyboard.DrawGraphSegue {
+            if let graphView = segue.destination as? GraphViewController {
+                graphView.scale = 0.60
+            }
+        }
+    }
+    
     @IBOutlet private weak var display: UILabel!
     
     @IBOutlet private weak var commandHistory: UILabel!
