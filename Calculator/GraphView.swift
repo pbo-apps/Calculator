@@ -14,26 +14,23 @@ class GraphView: UIView {
     @IBInspectable
     var origin: CGPoint? { didSet { setNeedsDisplay() } }
     @IBInspectable
-    var scale: CGFloat = 0.90 { didSet { setNeedsDisplay() } }
+    var pointsPerUnit: CGFloat = 1.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
     var lineColor = UIColor.green { didSet { setNeedsDisplay() } }
     @IBInspectable
     var lineWidth: CGFloat = 5.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
     var axesColor = UIColor.black { didSet { setNeedsDisplay() } }
-    
-    private var triangleSideLength: CGFloat {
-        return min(bounds.size.width, bounds.size.height) * scale
-    }
-    private var triangleCenter: CGPoint {
-        return CGPoint(x: bounds.midX, y: bounds.midY)
-    }
-    private var triangleInternalAngle: CGFloat {
-        return CGFloat(M_PI / 3.0)
+
+    private var graphOrigin: CGPoint {
+        return origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    private var defaultOrigin: CGPoint {
-        return CGPoint(x: bounds.midX, y: bounds.midY)
+    private func pixel(at point: CGFloat) -> CGFloat {
+        return point * contentScaleFactor
+    }
+    private func point(at pixel: CGFloat) -> CGFloat {
+        return pixel / contentScaleFactor
     }
     
     private var axesDrawer = AxesDrawer()
@@ -41,29 +38,41 @@ class GraphView: UIView {
     private func drawAxes(in rect: CGRect) {
         axesDrawer.contentScaleFactor = contentScaleFactor
         axesDrawer.color = axesColor
-        axesDrawer.drawAxes(in: rect, origin: origin ?? defaultOrigin, pointsPerUnit: scale)
+        axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
     }
     
-    private func pathForEquilateralTriangle(withCenter center: CGPoint, andSideLength sideLength: CGFloat) -> UIBezierPath {
-        let centerToPoint = (sideLength / 2) / cos(triangleInternalAngle / 2)
-        let centerToEdge = centerToPoint * sin(triangleInternalAngle / 2)
-        let topPoint = CGPoint(x: center.x, y: center.y - centerToPoint)
-        let rightPoint = CGPoint(x: center.x + (sideLength / 2), y: center.y + centerToEdge)
-        let leftPoint = CGPoint(x: center.x - (sideLength / 2), y: center.y + centerToEdge)
-        
+    private func pathForFunction(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
-        path.move(to: topPoint)
-        path.addLine(to: rightPoint)
-        path.addLine(to: leftPoint)
-        path.close()
-        path.lineWidth = lineWidth
+        var dataPoint: CGPoint?
         
+        for xPixel in stride(from: pixel(at: bounds.minX), to: pixel(at: bounds.maxX), by: 1.0) {
+            let xPoint = point(at: xPixel)
+            let xValue = (xPoint - graphOrigin.x) / pointsPerUnit
+            let yValue = calculateY(for: xValue)
+            let yPoint = graphOrigin.y - (yValue * pointsPerUnit)
+            
+            if rect.contains(CGPoint(x: xPoint, y: yPoint)) {
+                if dataPoint == nil {
+                    dataPoint = CGPoint(x: xPoint, y: yPoint)
+                    path.move(to: dataPoint!)
+                } else {
+                    dataPoint = CGPoint(x: xPoint, y: yPoint)
+                    path.addLine(to: dataPoint!)
+                }
+            } else {
+                dataPoint = nil
+            }
+        }
         return path
+    }
+    
+    private func calculateY(for x: CGFloat) -> CGFloat {
+        return pow(x, 0.5)
     }
     
     override func draw(_ rect: CGRect) {
         lineColor.set()
-        pathForEquilateralTriangle(withCenter: triangleCenter, andSideLength: triangleSideLength).stroke()
+        pathForFunction(in: rect).stroke()
         drawAxes(in: rect)
     }
 

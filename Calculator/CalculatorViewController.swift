@@ -19,7 +19,7 @@ class CalculatorViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Storyboard.DrawGraphSegue {
             if let graphView = segue.destination as? GraphViewController {
-                graphView.scale = 0.60
+                graphView.scale = 10.0
             }
         }
     }

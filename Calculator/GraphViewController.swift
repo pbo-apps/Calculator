@@ -20,7 +20,7 @@ class GraphViewController: UIViewController {
     
     private func updateUI() {
         if graphView != nil {
-            graphView.scale = CGFloat(scale)
+            graphView.pointsPerUnit = CGFloat(scale)
         }
     }
 }
