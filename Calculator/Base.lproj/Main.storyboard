@@ -200,11 +200,11 @@
                                                         <rect key="frame" x="290" y="0.0" width="53" height="60.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="E">
+                                                        <state key="normal" title="📈">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="touchVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zk3-77-DY4"/>
+                                                            <segue destination="SA9-u8-ksl" kind="showDetail" id="M17-qb-nzP"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -639,4 +639,7 @@
             <point key="canvasLocation" x="-658" y="-498"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="M17-qb-nzP"/>
+    </inferredMetricsTieBreakers>
 </document>
