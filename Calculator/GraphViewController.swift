@@ -10,7 +10,7 @@ import UIKit
 
 class GraphViewController: UIViewController {
 
-    var scale = 1.0 { didSet { updateUI() } }
+    var scale = 10.0 { didSet { updateUI() } }
     
     @IBOutlet weak var graphView: GraphView! {
         didSet {

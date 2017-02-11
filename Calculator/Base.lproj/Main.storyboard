@@ -16,7 +16,7 @@
                 <splitViewController id="LcT-ei-yiN" sceneMemberID="viewController">
                     <connections>
                         <segue destination="Tnn-b9-RIE" kind="relationship" relationship="masterViewController" id="CUD-Es-xEo"/>
-                        <segue destination="SA9-u8-ksl" kind="relationship" relationship="detailViewController" id="je5-we-V1E"/>
+                        <segue destination="rQF-wC-cJC" kind="relationship" relationship="detailViewController" id="je5-we-V1E"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OgY-Pd-Djd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -62,6 +62,7 @@
                             <constraint firstItem="hQk-lf-RZi" firstAttribute="leading" secondItem="rvX-ZF-oOf" secondAttribute="leading" id="ifv-z7-VWj"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Ia6-o3-eud"/>
                     <connections>
                         <outlet property="graphView" destination="hQk-lf-RZi" id="7PX-ip-enq"/>
                     </connections>
@@ -233,7 +234,7 @@
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="SA9-u8-ksl" kind="showDetail" identifier="Draw Graph" id="M17-qb-nzP"/>
+                                                            <segue destination="rQF-wC-cJC" kind="showDetail" identifier="Draw Graph" id="M17-qb-nzP"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -667,8 +668,26 @@
             </objects>
             <point key="canvasLocation" x="-658" y="-498"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yty-eQ-lWU">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rQF-wC-cJC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vDv-oB-tRw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="SA9-u8-ksl" kind="relationship" relationship="rootViewController" id="JEB-2W-TMf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DxT-Ro-e2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-658" y="319"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="M17-qb-nzP"/>
+        <segue reference="je5-we-V1E"/>
     </inferredMetricsTieBreakers>
 </document>
