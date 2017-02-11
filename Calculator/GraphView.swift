@@ -22,6 +22,16 @@ class GraphView: UIView {
     @IBInspectable
     var axesColor: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
+    func changeScale(_ recognizer: UIPinchGestureRecognizer) {
+        switch recognizer.state {
+        case .changed,.ended:
+            pointsPerUnit *= recognizer.scale
+            recognizer.scale = 1.0
+        default:
+            break
+        }
+    }
+    
     private var graphOrigin: CGPoint {
         return origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
     }
