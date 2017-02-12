@@ -23,7 +23,7 @@
             </objects>
             <point key="canvasLocation" x="-1446" y="-188"/>
         </scene>
-        <!--Graph View Controller-->
+        <!--No graph to display-->
         <scene sceneID="GbQ-B8-1Y7">
             <objects>
                 <viewController id="SA9-u8-ksl" customClass="GraphViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
@@ -62,7 +62,7 @@
                             <constraint firstItem="hQk-lf-RZi" firstAttribute="leading" secondItem="rvX-ZF-oOf" secondAttribute="leading" id="ifv-z7-VWj"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ia6-o3-eud"/>
+                    <navigationItem key="navigationItem" title="No graph to display" id="Ia6-o3-eud"/>
                     <connections>
                         <outlet property="graphView" destination="hQk-lf-RZi" id="7PX-ip-enq"/>
                     </connections>
@@ -219,7 +219,7 @@
                                                         <rect key="frame" x="232" y="0.0" width="53" height="60.5"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                        <state key="normal" title="D">
+                                                        <state key="normal" title="x">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
@@ -688,6 +688,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="je5-we-V1E"/>
+        <segue reference="M17-qb-nzP"/>
     </inferredMetricsTieBreakers>
 </document>

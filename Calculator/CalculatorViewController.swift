@@ -22,7 +22,7 @@ class CalculatorViewController: UIViewController {
                 graphView.pointsPerUnit = 10.0
                 graphView.function = brain.program
                 graphView.trigSetting = brain.trigSetting
-                graphView.title = (sender as? UIButton)?.currentTitle
+                graphView.title = brain.description == nil ? "No graph to display" : "y = " + brain.description!
             }
         }
     }

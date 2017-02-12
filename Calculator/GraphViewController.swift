@@ -51,9 +51,10 @@ class GraphViewController: UIViewController {
             brain.trigSetting = trigSetting
             graphView.pointsPerUnit = pointsPerUnit
             graphView.origin = origin
+            
             if let program = function {
                 graphView.functionOfX = { [weak weakSelf = self] in
-                    weakSelf?.brain.variableValues["A"] = Double($0)
+                    weakSelf?.brain.variableValues["x"] = Double($0)
                     weakSelf?.brain.program = program
                     return weakSelf?.brain.result == nil ? nil : CGFloat((weakSelf?.brain.result)!)
                 }
