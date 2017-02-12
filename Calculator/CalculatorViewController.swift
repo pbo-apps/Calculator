@@ -27,6 +27,15 @@ class CalculatorViewController: UIViewController {
         }
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case Storyboard.DrawGraphSegue:
+            return !brain.isPartialResult
+        default:
+            return true
+        }
+    }
+    
     // MARK: - View
     
     @IBOutlet private weak var display: UILabel!
