@@ -8,7 +8,35 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
+    
+    private struct Storyboard {
+        static let DrawGraphSegue = "Draw Graph"
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Storyboard.DrawGraphSegue {
+            if let graphView = segue.destination.contentViewController as? GraphViewController {
+                graphView.pointsPerUnit = 10.0
+                graphView.function = brain.program
+                graphView.trigSetting = brain.trigSetting
+                graphView.title = brain.description == nil ? "No graph to display" : "y = " + brain.description!
+            }
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case Storyboard.DrawGraphSegue:
+            return !brain.isPartialResult
+        default:
+            return true
+        }
+    }
+    
+    // MARK: - View
     
     @IBOutlet private weak var display: UILabel!
     
@@ -65,6 +93,8 @@ class ViewController: UIViewController {
             commandHistory.text = newValue == " " ? newValue : newValue + commandHistorySuffix
         }
     }
+    
+    // MARK: - Model
     
     private var brain = CalculatorBrain()
     
@@ -163,3 +193,12 @@ class ViewController: UIViewController {
     }
 }
 
+extension UIViewController {
+    var contentViewController: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        } else {
+            return self
+        }
+    }
+}
