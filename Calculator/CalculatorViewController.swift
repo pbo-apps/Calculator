@@ -21,11 +21,13 @@ class CalculatorViewController: UIViewController {
             if let graphView = segue.destination.contentViewController as? GraphViewController {
                 graphView.pointsPerUnit = 10.0
                 graphView.function = brain.program
-                graphView.brain.trigSetting = brain.trigSetting
+                graphView.trigSetting = brain.trigSetting
                 graphView.title = (sender as? UIButton)?.currentTitle
             }
         }
     }
+    
+    // MARK: - View
     
     @IBOutlet private weak var display: UILabel!
     
@@ -82,6 +84,8 @@ class CalculatorViewController: UIViewController {
             commandHistory.text = newValue == " " ? newValue : newValue + commandHistorySuffix
         }
     }
+    
+    // MARK: - Model
     
     private var brain = CalculatorBrain()
     

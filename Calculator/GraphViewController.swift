@@ -16,6 +16,14 @@ class GraphViewController: UIViewController {
     
     var function: CalculatorBrain.PropertyList? { didSet { updateUI() } }
     
+    var trigSetting = CalculatorBrain.TrigUnit.Degrees { didSet { updateUI() } }
+    
+    // MARK: - Model
+    
+    private var brain = CalculatorBrain()
+    
+    // MARK: - View
+    
     @IBOutlet weak var graphView: GraphView! {
         didSet {
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(
@@ -38,10 +46,9 @@ class GraphViewController: UIViewController {
         }
     }
     
-    var brain = CalculatorBrain()
-    
     private func updateUI() {
         if graphView != nil {
+            brain.trigSetting = trigSetting
             graphView.pointsPerUnit = pointsPerUnit
             graphView.origin = origin
             if let program = function {
