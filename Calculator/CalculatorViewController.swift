@@ -20,6 +20,8 @@ class CalculatorViewController: UIViewController {
         if segue.identifier == Storyboard.DrawGraphSegue {
             if let graphView = segue.destination.contentViewController as? GraphViewController {
                 graphView.pointsPerUnit = 10.0
+                graphView.function = brain.program
+                graphView.brain.trigSetting = brain.trigSetting
                 graphView.title = (sender as? UIButton)?.currentTitle
             }
         }

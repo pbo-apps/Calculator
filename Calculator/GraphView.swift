@@ -22,6 +22,8 @@ class GraphView: UIView {
     @IBInspectable
     var axesColor: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
+    var functionOfX: ((CGFloat) -> CGFloat)? { didSet { setNeedsDisplay() } }
+    
     func changeScale(_ recognizer: UIPinchGestureRecognizer) {
         switch recognizer.state {
         case .changed,.ended:
@@ -84,32 +86,30 @@ class GraphView: UIView {
     
     private func pathForFunction(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
-        path.lineWidth = lineWidth
-        var dataPoint: CGPoint?
-        
-        for xPixel in stride(from: pixel(at: bounds.minX), to: pixel(at: bounds.maxX), by: 1.0) {
-            let xPoint = point(at: xPixel)
-            let xValue = (xPoint - graphOrigin.x) / pointsPerUnit
-            let yValue = calculateY(for: xValue)
-            let yPoint = graphOrigin.y - (yValue * pointsPerUnit)
+        if let calculateY = functionOfX {
+            path.lineWidth = lineWidth
+            var dataPoint: CGPoint?
             
-            if rect.contains(CGPoint(x: xPoint, y: yPoint)) {
-                if dataPoint == nil {
-                    dataPoint = CGPoint(x: xPoint, y: yPoint)
-                    path.move(to: dataPoint!)
+            for xPixel in stride(from: pixel(at: bounds.minX), to: pixel(at: bounds.maxX), by: 1.0) {
+                let xPoint = point(at: xPixel)
+                let xValue = (xPoint - graphOrigin.x) / pointsPerUnit
+                let yValue = calculateY(xValue)
+                let yPoint = graphOrigin.y - (yValue * pointsPerUnit)
+                
+                if rect.contains(CGPoint(x: xPoint, y: yPoint)) {
+                    if dataPoint == nil {
+                        dataPoint = CGPoint(x: xPoint, y: yPoint)
+                        path.move(to: dataPoint!)
+                    } else {
+                        dataPoint = CGPoint(x: xPoint, y: yPoint)
+                        path.addLine(to: dataPoint!)
+                    }
                 } else {
-                    dataPoint = CGPoint(x: xPoint, y: yPoint)
-                    path.addLine(to: dataPoint!)
+                    dataPoint = nil
                 }
-            } else {
-                dataPoint = nil
             }
         }
         return path
-    }
-    
-    private func calculateY(for x: CGFloat) -> CGFloat {
-        return 20 * sin(x)
     }
     
     override func draw(_ rect: CGRect) {

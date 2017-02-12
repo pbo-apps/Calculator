@@ -14,6 +14,8 @@ class GraphViewController: UIViewController {
     
     var origin: CGPoint? { didSet { updateUI() } }
     
+    var function: CalculatorBrain.PropertyList? { didSet { updateUI() } }
+    
     @IBOutlet weak var graphView: GraphView! {
         didSet {
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(
@@ -36,10 +38,19 @@ class GraphViewController: UIViewController {
         }
     }
     
+    var brain = CalculatorBrain()
+    
     private func updateUI() {
         if graphView != nil {
             graphView.pointsPerUnit = pointsPerUnit
             graphView.origin = origin
+            if let program = function {
+                graphView.functionOfX = {
+                    self.brain.variableValues["A"] = Double($0)
+                    self.brain.program = program
+                    return CGFloat(self.brain.result)
+                }
+            }
         }
     }
 
