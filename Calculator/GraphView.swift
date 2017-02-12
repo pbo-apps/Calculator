@@ -93,7 +93,7 @@ class GraphView: UIView {
             for xPixel in stride(from: pixel(at: bounds.minX), to: pixel(at: bounds.maxX), by: 1.0) {
                 let xPoint = point(at: xPixel)
                 let xValue = (xPoint - graphOrigin.x) / pointsPerUnit
-                if let yValue = calculateY(xValue) {
+                if let yValue = calculateY(xValue), yValue.isNormal || yValue.isZero {
                     let yPoint = graphOrigin.y - (yValue * pointsPerUnit)
                     
                     if rect.contains(CGPoint(x: xPoint, y: yPoint)) {
