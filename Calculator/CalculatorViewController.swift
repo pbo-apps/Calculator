@@ -169,13 +169,8 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func toggleRadiansAndDegrees(_ sender: UIButton) {
-        if sender.currentTitle! == "Deg" {
-            sender.setTitle("Rad", for: UIControlState.normal)
-            brain.trigSetting = CalculatorBrain.TrigUnit.Degrees
-        } else {
-            sender.setTitle("Deg", for: UIControlState.normal)
-            brain.trigSetting = CalculatorBrain.TrigUnit.Radians
-        }
+        sender.setTitle(brain.trigSetting.rawValue, for: UIControlState.normal)
+        brain.trigSetting = brain.trigSetting.change()
         displayValue = brain.result
     }
     
