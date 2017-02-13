@@ -18,9 +18,36 @@ class GraphViewController: UIViewController {
     
     var trigSetting = CalculatorBrain.TrigUnit.Degrees { didSet { updateUI() } }
     
+    override func viewDidLoad() {
+        let defaults = UserDefaults.standard
+        if let storedOrigin = defaults.string(forKey: userDefaultsKeys.origin) {
+            self.origin = CGPointFromString(storedOrigin)
+        }
+        let storedPointsPerUnit = defaults.float(forKey: userDefaultsKeys.pointsPerUnit)
+        if storedPointsPerUnit > 0.0 {
+            self.pointsPerUnit = CGFloat(storedPointsPerUnit)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let defaults = UserDefaults.standard
+        if let currentOrigin = graphView?.origin {
+            defaults.set(NSStringFromCGPoint(currentOrigin), forKey: userDefaultsKeys.origin)
+        }
+        if let currentPointsPerUnit = graphView?.pointsPerUnit {
+            defaults.set(currentPointsPerUnit, forKey: userDefaultsKeys.pointsPerUnit)
+        }
+        defaults.synchronize()
+    }
+    
     // MARK: - Model
     
     private var brain = CalculatorBrain()
+    
+    struct userDefaultsKeys {
+        static let origin = "graph_origin"
+        static let pointsPerUnit = "graph_points_per_unit"
+    }
     
     // MARK: - View
     
