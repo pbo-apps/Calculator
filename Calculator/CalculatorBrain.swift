@@ -241,9 +241,9 @@ class CalculatorBrain {
         return inParentheses(word: value.cleanValue)
     }
     
-    enum TrigUnit {
-        case Degrees
-        case Radians
+    enum TrigUnit: String {
+        case Degrees = "Deg"
+        case Radians = "Rad"
     }
     
     var trigSetting = TrigUnit.Degrees {

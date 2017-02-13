@@ -27,6 +27,17 @@ class GraphViewController: UIViewController {
         if storedPointsPerUnit > 0.0 {
             self.pointsPerUnit = CGFloat(storedPointsPerUnit)
         }
+        if function == nil {
+            if let storedFunction = defaults.array(forKey: userDefaultsKeys.function) {
+                function = storedFunction as CalculatorBrain.PropertyList?
+            }
+            if let storedFunctionDescription = defaults.string(forKey: userDefaultsKeys.functionDescription) {
+                self.title = storedFunctionDescription
+            }
+            if let storedTrigSetting = defaults.string(forKey: userDefaultsKeys.trigSetting) {
+                self.trigSetting = CalculatorBrain.TrigUnit(rawValue: storedTrigSetting) ?? self.trigSetting
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,6 +48,13 @@ class GraphViewController: UIViewController {
         if let currentPointsPerUnit = graphView?.pointsPerUnit {
             defaults.set(currentPointsPerUnit, forKey: userDefaultsKeys.pointsPerUnit)
         }
+        if let currentFunction = self.function {
+            defaults.set(currentFunction, forKey: userDefaultsKeys.function)
+        }
+        if let currentFunctionDescription = self.title {
+            defaults.set(currentFunctionDescription, forKey: userDefaultsKeys.functionDescription)
+        }
+        defaults.set(trigSetting.rawValue, forKey: userDefaultsKeys.trigSetting)
         defaults.synchronize()
     }
     
@@ -47,6 +65,9 @@ class GraphViewController: UIViewController {
     struct userDefaultsKeys {
         static let origin = "graph_origin"
         static let pointsPerUnit = "graph_points_per_unit"
+        static let function = "graph_function"
+        static let functionDescription = "graph_function_description"
+        static let trigSetting = "graph_trig_setting"
     }
     
     // MARK: - View
