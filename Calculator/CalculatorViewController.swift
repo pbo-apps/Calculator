@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     
     private struct Storyboard {
         static let DrawGraphSegue = "Draw Graph"
@@ -92,6 +92,20 @@ class CalculatorViewController: UIViewController {
         set {
             commandHistory.text = newValue == " " ? newValue : newValue + commandHistorySuffix
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        splitViewController?.delegate = self
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if primaryViewController.contentViewController == self {
+            if let gvc = secondaryViewController.contentViewController as? GraphViewController, gvc.function == nil {
+                return true
+            }
+        }
+        return false
     }
     
     // MARK: - Model
