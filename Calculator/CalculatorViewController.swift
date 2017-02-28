@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     
     private struct Storyboard {
         static let DrawGraphSegue = "Draw Graph"
@@ -94,6 +94,20 @@ class CalculatorViewController: UIViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        splitViewController?.delegate = self
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if primaryViewController.contentViewController == self {
+            if let gvc = secondaryViewController.contentViewController as? GraphViewController, gvc.function == nil {
+                return true
+            }
+        }
+        return false
+    }
+    
     // MARK: - Model
     
     private var brain = CalculatorBrain()
@@ -169,13 +183,8 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func toggleRadiansAndDegrees(_ sender: UIButton) {
-        if sender.currentTitle! == "Deg" {
-            sender.setTitle("Rad", for: UIControlState.normal)
-            brain.trigSetting = CalculatorBrain.TrigUnit.Degrees
-        } else {
-            sender.setTitle("Deg", for: UIControlState.normal)
-            brain.trigSetting = CalculatorBrain.TrigUnit.Radians
-        }
+        sender.setTitle(brain.trigSetting.rawValue, for: UIControlState.normal)
+        brain.trigSetting = brain.trigSetting.change()
         displayValue = brain.result
     }
     
